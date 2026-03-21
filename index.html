@@ -23,32 +23,26 @@
     /* Desktop */
     .desktop {
       width: 100vw;
-      height: 100vh;
+      height: calc(100vh - 40px);
       background: url('wallpaper.png') no-repeat center center fixed;
       background-size: cover;
       padding: 20px;
-      display: flex;
-      flex-direction: column;
+      position: relative;
     }
 
     /* Icons */
-    .icons {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      flex: 1;
-    }
-
     .icon {
+      position: absolute;
       display: flex;
       flex-direction: column;
       align-items: center;
       width: 80px;
       cursor: pointer;
       padding: 4px;
+      user-select: none;
     }
 
-    .icon:hover {
+    .icon:hover, .icon.dragging {
       background: rgba(255, 255, 255, 0.2);
     }
 
@@ -332,26 +326,21 @@
 </head>
 <body>
   <div class="desktop">
-    <div class="icons">
-      <div class="icon" ondblclick="openWindow('projects')">
-        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%23ffeb3b' width='48' height='48'/><rect fill='%23fdd835' x='4' y='4' width='40' height='40'/><rect fill='%23fbc02d' x='8' y='8' width='32' height='32'/><text x='24' y='30' text-anchor='middle' font-size='20'>P</text></svg>" alt="Projects">
-        <span class="icon-label">Projects</span>
-      </div>
-      <div class="icon" ondblclick="openWindow('about')">
-        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%23e0e0e0' width='48' height='48'/><circle fill='%23bdbdbd' cx='24' cy='20' r='10'/><path fill='%23bdbdbd' d='M8 44 Q24 30 40 44 L40 48 L8 48 Z'/></svg>" alt="About Me">
-        <span class="icon-label">About Me</span>
-      </div>
-      <div class="icon" ondblclick="openWindow('contact')">
-        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%230a246a' width='48' height='32'/><polygon fill='%23e0e0e0' points='24,24 0,12 48,12'/><polygon fill='%23c0c0c0' points='24,24 0,20 48,20'/><rect fill='%23a0a0a0' y='32' width='48' height='16'/></svg>" alt="Contact">
-        <span class="icon-label">Contact</span>
-      </div>
-      <div class="icon" onclick="alert('My Computer - Not implemented 😄')">
-        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%23c0c0c0' width='48' height='36'/><rect fill='%23000' x='4' y='4' width='40' height='24'/><rect fill='%23c0c0c0' x='12' y='36' width='24' height='8'/><rect fill='%23a0a0a0' x='8' y='40' width='32' height='4'/><rect fill='%23808080' x='16' y='28' width='16' height='4'/><rect fill='%23008000' x='16' y='8' width='4' height='4'/><rect fill='%23000080' x='24' y='8' width='4' height='4'/></svg>" alt="My Computer">
-        <span class="icon-label">My Computer</span>
-      </div>
+    <div class="icon" ondblclick="openWindow('projects')">
+      <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%23ffeb3b' width='48' height='48'/><rect fill='%23fdd835' x='4' y='4' width='40' height='40'/><rect fill='%23fbc02d' x='8' y='8' width='32' height='32'/><text x='24' y='30' text-anchor='middle' font-size='20'>P</text></svg>" alt="Projects">
+      <span class="icon-label">Projects</span>
     </div>
+    <div class="icon" ondblclick="openWindow('about')">
+      <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%23e0e0e0' width='48' height='48'/><circle fill='%23bdbdbd' cx='24' cy='20' r='10'/><path fill='%23bdbdbd' d='M8 44 Q24 30 40 44 L40 48 L8 48 Z'/></svg>" alt="About Me">
+      <span class="icon-label">About Me</span>
+    </div>
+    <div class="icon" ondblclick="openWindow('contact')">
+      <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'><rect fill='%230a246a' width='48' height='32'/><polygon fill='%23e0e0e0' points='24,24 0,12 48,12'/><polygon fill='%23c0c0c0' points='24,24 0,20 48,20'/><rect fill='%23a0a0a0' y='32' width='48' height='16'/></svg>" alt="Contact">
+      <span class="icon-label">Contact</span>
+    </div>
+  </div>
 
-    <div class="taskbar">
+  <div class="taskbar">
       <button class="start-button" onclick="toggleStartMenu()">
         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><rect fill='%23ff0000' width='20' height='20'/><rect fill='%2300ff00' x='10' width='10' height='10'/><rect fill='%230000ff' y='10' width='10' height='10'/><rect fill='%23ffff00' x='10' y='10' width='10' height='10'/></svg>" alt="Start">
         Start
@@ -378,7 +367,6 @@
         </div>
       </div>
     </div>
-  </div>
 
   <div class="window" id="window-projects" style="top: 100px; left: 150px; width: 450px;">
     <div class="window-header">
@@ -570,15 +558,66 @@
       });
     });
 
+    // Make desktop icons draggable
+    let draggedIcon = null;
+    let iconStartX, iconStartY;
+
+    document.querySelectorAll('.icon').forEach(icon => {
+      icon.addEventListener('mousedown', (e) => {
+        draggedIcon = icon;
+        const rect = icon.getBoundingClientRect();
+        iconStartX = e.clientX - rect.left;
+        iconStartY = e.clientY - rect.top;
+        icon.classList.add('dragging');
+        e.preventDefault();
+      });
+    });
+
     document.addEventListener('mousemove', (e) => {
       if (draggedWindow) {
         draggedWindow.style.left = (e.clientX - offsetX) + 'px';
         draggedWindow.style.top = (e.clientY - offsetY) + 'px';
       }
+      if (draggedIcon) {
+        const desktop = document.querySelector('.desktop');
+        const desktopRect = desktop.getBoundingClientRect();
+        const newLeft = e.clientX - desktopRect.left - iconStartX;
+        const newTop = e.clientY - desktopRect.top - iconStartY;
+        draggedIcon.style.left = newLeft + 'px';
+        draggedIcon.style.top = newTop + 'px';
+      }
     });
 
     document.addEventListener('mouseup', () => {
+      if (draggedIcon) {
+        const iconLabel = draggedIcon.querySelector('.icon-label').textContent;
+        localStorage.setItem('icon-pos-' + iconLabel, JSON.stringify({
+          left: draggedIcon.style.left,
+          top: draggedIcon.style.top
+        }));
+        draggedIcon.classList.remove('dragging');
+      }
       draggedWindow = null;
+      draggedIcon = null;
+    });
+
+    // Restore icon positions
+    document.querySelectorAll('.icon').forEach((icon, index) => {
+      const iconLabel = icon.querySelector('.icon-label').textContent;
+      const saved = localStorage.getItem('icon-pos-' + iconLabel);
+      if (saved) {
+        try {
+          const pos = JSON.parse(saved);
+          if (pos.left) icon.style.left = pos.left;
+          if (pos.top) icon.style.top = pos.top;
+        } catch (e) {
+          // Invalid stored data, use default
+        }
+      } else {
+        // Default positions
+        icon.style.left = '20px';
+        icon.style.top = (20 + index * 100) + 'px';
+      }
     });
   </script>
 </body>
