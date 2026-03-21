@@ -495,11 +495,21 @@
 
     function maximizeWindow(name) {
       const window = document.getElementById(`window-${name}`);
-      if (window.style.width === '100vw') {
-        window.style.width = '';
-        window.style.top = '';
-        window.style.left = '';
+      if (window.dataset.originalWidth) {
+        window.style.width = window.dataset.originalWidth;
+        window.style.height = window.dataset.originalHeight;
+        window.style.top = window.dataset.originalTop;
+        window.style.left = window.dataset.originalLeft;
+        delete window.dataset.originalWidth;
+        delete window.dataset.originalHeight;
+        delete window.dataset.originalTop;
+        delete window.dataset.originalLeft;
       } else {
+        const computed = getComputedStyle(window);
+        window.dataset.originalWidth = window.style.width || computed.width;
+        window.dataset.originalHeight = window.style.height || '';
+        window.dataset.originalTop = window.style.top || computed.marginTop || '100px';
+        window.dataset.originalLeft = window.style.left || computed.marginLeft || '150px';
         window.style.width = '100vw';
         window.style.height = 'calc(100vh - 40px)';
         window.style.top = '0';
