@@ -368,7 +368,7 @@
       </div>
     </div>
 
-  <div class="window" id="window-projects" style="top: 100px; left: 150px; width: 450px;">
+  <div class="window" id="window-projects" style="top: 80px; left: 80px; width: 420px;">
     <div class="window-header">
       <div class="window-title">
         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%23ffeb3b' width='16' height='16'/><text x='8' y='12' text-anchor='middle' font-size='10'>P</text></svg>">
@@ -382,24 +382,29 @@
     </div>
     <div class="window-content">
       <div class="project-card">
-        <h3>Project Alpha</h3>
-        <p>A web application for task management with real-time collaboration features.</p>
-        <a href="#">View on GitHub →</a>
+        <h3>OpenOrch</h3>
+        <p>AI-powered UI testing platform using LLMs to autonomously test web applications. Converts natural language instructions into executable browser actions.</p>
+        <a href="https://github.com/sivaprasad2000/OpenOrch" target="_blank">View on GitHub →</a>
       </div>
       <div class="project-card">
-        <h3>Project Beta</h3>
-        <p>E-commerce platform built with modern JavaScript frameworks.</p>
-        <a href="#">View on GitHub →</a>
+        <h3>ChatGPT Bridge</h3>
+        <p>Local proxy exposing ChatGPT via OpenAI-compatible API. Chrome extension to route requests through active browser session (no API key needed).</p>
+        <a href="https://github.com/sivaprasad2000/chatgpt-bridge" target="_blank">View on GitHub →</a>
       </div>
       <div class="project-card">
-        <h3>Project Gamma</h3>
-        <p>Open-source library for data visualization and charts.</p>
-        <a href="#">View on GitHub →</a>
+        <h3>slimt</h3>
+        <p>Lightweight inference frontend for tiny models (Bergamot project). Used transformer models with recurrent decoders.</p>
+        <a href="https://github.com/jerinphilip/slimt" target="_blank">View on GitHub →</a>
+      </div>
+      <div class="project-card">
+        <h3>Vitarana Drone</h3>
+        <p>ROS-based delivery drone for eYantra (IIT Bombay). Implemented obstacle detection and QR-based delivery retrieval.</p>
+        <a href="https://github.com/sivaprasad2000/vitarana_drone" target="_blank">View on GitHub →</a>
       </div>
     </div>
   </div>
 
-  <div class="window" id="window-about" style="top: 150px; left: 200px; width: 400px; display: none;">
+  <div class="window" id="window-about" style="top: 250px; left: 450px; width: 380px;">
     <div class="window-header">
       <div class="window-title">
         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><circle fill='%23bdbdbd' cx='8' cy='6' r='4'/><path fill='%23bdbdbd' d='M2 14 Q8 10 14 14 L14 16 L2 16 Z'/></svg>">
@@ -412,15 +417,17 @@
       </div>
     </div>
     <div class="window-content">
-      <p>Hello! I'm <strong>Your Name</strong>, a developer who loves building things for the web.</p>
+      <p>Hello! I'm <strong>Sivaprasad S</strong>, a Founding Engineer at Valyx.</p>
       <br>
-      <p>I specialize in creating clean, user-friendly applications. When I'm not coding, you can find me exploring new technologies or contributing to open-source projects.</p>
+      <p>I specialize in building scalable systems and have experience with billing systems, workflow builders, and ML-powered solutions.</p>
       <br>
-      <p>Skills: JavaScript, React, Node.js, Python, and more<span class="cursor">|</span></p>
+      <p><strong>Skills:</strong> Python, JavaScript, Go, Rust, PostgreSQL, Redis, Docker, Kubernetes, AWS, GCP</p>
+      <br>
+      <p><strong>Education:</strong> B.Tech in Electronics and Communication from IIIT Hyderabad (CGPA: 7.91)</p>
     </div>
   </div>
 
-  <div class="window" id="window-contact" style="top: 180px; left: 250px; width: 350px; display: none;">
+  <div class="window" id="window-contact" style="top: 120px; left: 550px; width: 320px;">
     <div class="window-header">
       <div class="window-title">
         <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230a246a' width='16' height='10'/><polygon fill='%23c0c0c0' points='8,5 0,2 16,2'/></svg>">
@@ -435,15 +442,16 @@
     <div class="window-content">
       <p>Get in touch with me:</p>
       <br>
-      <p>📧 <a href="mailto:hello@example.com">hello@example.com</a></p>
-      <p>💻 <a href="#">GitHub</a></p>
-      <p>💼 <a href="#">LinkedIn</a></p>
+      <p>📞 <a href="tel:+919188322849">+91 9188322849</a></p>
+      <p>📧 <a href="mailto:sivaprasad2000@outlook.com">sivaprasad2000@outlook.com</a></p>
+      <p>🔗 <a href="https://linkedin.com/in/sivaprasad-s" target="_blank">LinkedIn</a></p>
+      <p>💻 <a href="https://github.com/sivaprasad2000" target="_blank">GitHub</a></p>
     </div>
   </div>
 
   <script>
     let zIndex = 1;
-    let openWindows = new Set(['projects']);
+    let openWindows = new Set(['projects', 'about', 'contact']);
 
     // Initialize taskbar with initially visible windows
     updateTaskbar();
