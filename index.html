@@ -453,7 +453,10 @@
 
   <script>
     let zIndex = 1;
-    let openWindows = new Set();
+    let openWindows = new Set(['projects']);
+
+    // Initialize taskbar with initially visible windows
+    updateTaskbar();
 
     function updateClock() {
       const now = new Date();
@@ -490,11 +493,12 @@
     function minimizeWindow(name) {
       const window = document.getElementById(`window-${name}`);
       window.style.display = 'none';
-      updateTaskbar();
     }
 
     function maximizeWindow(name) {
       const window = document.getElementById(`window-${name}`);
+      window.style.display = 'block';
+      window.style.zIndex = ++zIndex;
       if (window.dataset.originalWidth) {
         window.style.width = window.dataset.originalWidth;
         window.style.height = window.dataset.originalHeight;
